@@ -1,0 +1,113 @@
+@import url("https://fonts.cdnfonts.com/css/k2d");
+/* font-family: 'K2D', sans-serif;
+font-family: 'K2D Thin', sans-serif;
+font-family: 'K2D ExtraLight', sans-serif;
+font-family: 'K2D Light', sans-serif;
+font-family: 'K2D Medium', sans-serif;
+font-family: 'K2D SemiBold', sans-serif;
+font-family: 'K2D ExtraBold', sans-serif; */
+header,
+footer {
+  height: 150px;
+  background-color: #222222;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "K2D", sans-serif;
+  list-style-type: none;
+  font-size: 1.2rem;
+}
+
+header,
+footer {
+  padding: 50px;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  background-color: transparent;
+}
+
+nav {
+  width: 50%;
+  height: 100px;
+  background-color: transparent;
+  border: 1px solid #df4254;
+  border-radius: 100px 100px 30px 30px;
+}
+
+ul {
+  height: 100%;
+}
+
+span {
+  width: 2px;
+  height: 30px;
+  background-color: transparent;
+  border: 1px solid #f6919c;
+  border-radius: 0 0 0 0;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 0px;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  width: auto;
+  height: calc(100vh - 300px);
+  background-color: #3e86ba;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+  gap: 0px;
+}
+
+.list_song {
+  width: 20%;
+  height: calc(90% + 150px);
+  background-color: #222222;
+  border: 0px solid #222222;
+  border-radius: 0 20px 0 0;
+  margin-top: calc(0.1 * (100vh - 300px));
+}
+
+.container {
+  width: 80%;
+  height: 100%;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 0;
+}
+
+.song_info {
+  width: 90%;
+  height: 100px;
+  background-color: #222222;
+  border: 0px solid #222222;
+  border-radius: 20px 20px 20px 20px;
+}
+
+.equaliser {
+  width: 60%;
+  height: 70%;
+  background-color: #222222;
+}
+
+/*# sourceMappingURL=style.css.map */

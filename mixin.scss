@@ -1,0 +1,43 @@
+@mixin figure($width, $height, $color) {
+  width: $width;
+  height: $height;
+  background-color: $color;
+}
+@mixin border(
+  $size,
+  $style,
+  $color,
+  $radius-top-left,
+  $radius-top-right,
+  $radius-bottom-right,
+  $radius-bottom-left
+) {
+  border: $size $style $color;
+  border-radius: $radius-top-left $radius-top-right $radius-bottom-right
+    $radius-bottom-left;
+}
+@mixin shadow-box($offset-x, $offset-y, $blur, $spread-radius, $color) {
+  box-shadow: $offset-x $offset-y $blur $spread-radius $color,
+    (-$offset-x) (-$offset-y) $blur $spread-radius $color;
+}
+@mixin flex($direction, $justify-content, $align-items, $gap) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify-content;
+  align-items: $align-items;
+  gap: $gap;
+}
+@mixin position($position, $top, $right, $bottom, $left, $z-index) {
+  position: $position;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+  z-index: $z-index;
+}
+@mixin font($size, $color, $style, $weight) {
+  font-size: $size;
+  color: $color;
+  font-style: $style;
+  font-weight: $weight;
+}
