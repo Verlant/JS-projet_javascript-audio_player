@@ -1,0 +1,156 @@
+// ************************************************************************************ Import ********************************************************************************
+
+@use "var";
+@use "mixin";
+@import url("https://fonts.cdnfonts.com/css/k2d");
+
+// ************************************************************************************ Extends ********************************************************************************
+
+%size-header-footer {
+  height: 150px;
+  background-color: var.$black-color;
+}
+
+// ************************************************************************************ Start ********************************************************************************
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style-type: none;
+  @include mixin.font(1.2rem, var.$white-color, var.$font-family, normal);
+}
+
+header,
+footer {
+  @extend %size-header-footer;
+  // padding: 50px;
+}
+header {
+  @include mixin.position(relative, auto, auto, auto, auto, 0);
+  @include mixin.flex(row, end, center, 0px);
+}
+.logo {
+  @include mixin.figure(100px, 100px, transparent);
+  @include mixin.position(absolute, 15%, auto, auto, 5%, 0);
+}
+nav {
+  @include mixin.figure(50%, 100px, transparent);
+  @include mixin.border(
+    1px,
+    solid,
+    var.$third-dark-color,
+    100px,
+    100px,
+    30px,
+    30px
+  );
+  margin-right: 14.5%;
+}
+ul {
+  height: 100%;
+  @include mixin.flex(row, space-evenly, center, 0px);
+}
+span {
+  @include mixin.figure(2px, 30px, transparent);
+  @include mixin.border(1px, solid, var.$third-light-color, 0, 0, 0, 0);
+}
+main {
+  @include mixin.figure(auto, calc(100vh - 300px), var.$secondary-color);
+  @include mixin.flex(row, start, start, 0px);
+  //   padding-top: calc(0.1 * (100vh - 300px));
+}
+aside {
+  @include mixin.figure(20%, calc(90% + 150px), var.$black-color);
+  @include mixin.border(0px, solid, transparent, 0, 20px, 0, 0);
+  margin-top: calc(0.1 * (100vh - 300px));
+  .playlist_title {
+    @include mixin.figure(100%, 10%, transparent);
+    @include mixin.flex(row, center, center, 0px);
+    border-bottom: 1px solid var.$secondary-color;
+  }
+  .container_list-song {
+    @include mixin.figure(100%, 90%, transparent);
+    @include mixin.flex(row, start, start, 0px);
+    direction: rtl;
+    overflow-y: scroll;
+    scrollbar-color: var.$secondary-light-color transparent;
+    .list-song {
+      @include mixin.figure(100%, 100%, transparent);
+      @include mixin.flex(column, start, center, 0px);
+      li {
+        @include mixin.figure(100%, auto, transparent);
+        @include mixin.flex(row, center, center, 0px);
+        border-bottom: 1px solid var.$secondary-color;
+      }
+    }
+  }
+}
+.container {
+  @include mixin.figure(80%, 100%, transparent);
+  @include mixin.flex(column, space-evenly, center, 0);
+}
+.song_info {
+  @include mixin.figure(90%, 100px, var.$black-color);
+  @include mixin.border(0px, solid, transparent, 20px, 20px, 20px, 20px);
+  span {
+    @include mixin.figure(30px, 2px, transparent);
+    @include mixin.border(1px, solid, var.$third-light-color, 0, 0, 0, 0);
+  }
+}
+.equaliser {
+  @include mixin.figure(60%, 70%, var.$black-color);
+}
+footer {
+  @include mixin.flex(row, center, center, 0);
+}
+.player {
+  @include mixin.figure(45%, 100px, transparent);
+  background: linear-gradient(var.$primary-light-color, var.$third-color);
+  @include mixin.border(0px, solid, transparent, 50px, 50px, 100px, 100px);
+  @include mixin.flex(column, space-evenly, center, 0);
+  margin-left: 20%;
+}
+.time-line {
+  @include mixin.figure(80%, 2px, var.$black-color);
+  @include mixin.position(relative, auto, auto, auto, auto, 0);
+  .time_btn {
+    @include mixin.figure(10px, 10px, var.$black-color);
+    @include mixin.border(0px, solid, transparent, 50%, 50%, 50%, 50%);
+    @include mixin.position(absolute, -4px, auto, auto, -4px, 0);
+  }
+  span {
+    @include mixin.figure(auto, auto, transparent);
+    border: none;
+    @include mixin.font(
+      0.5rem,
+      var.$black-color,
+      var.$font-family-bold,
+      normal
+    );
+  }
+  .current-time {
+    @include mixin.position(absolute, 10px, auto, auto, -2.5%, 0);
+  }
+  .end-time {
+    @include mixin.position(absolute, 10px, -2.5%, auto, auto, 0);
+  }
+}
+.player-button {
+  @include mixin.figure(90%, 70%, transparent);
+  @include mixin.flex(row, space-evenly, center, 0);
+  div {
+    width: 20%;
+    @include mixin.flex(row, space-evenly, center, 0);
+  }
+}
+button {
+  @include mixin.figure(auto, auto, transparent);
+  @include mixin.flex(row, center, center, 0);
+  border: none;
+  cursor: pointer;
+}
+// ************************************************************************************ Class JS ********************************************************************************
+.JS-display_none {
+  display: none;
+}
