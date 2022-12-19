@@ -1,24 +1,57 @@
 let song_list_arr = [
   {
+    title: "Uncatchable",
+    artist: "Alexandr Zhelanov",
+    album: "Inconnu",
+    url: "audio_tracks/AlexandrZhelanov-Uncatchable.mp3",
+  },
+  {
+    title: "Lovely Swindler",
+    artist: "Amaria",
+    album: "Inconnu",
+    url: "audio_tracks/Amaria_LovelySwindler.mp3",
+  },
+  {
+    title: "Starcade",
+    artist: "Blue Navi",
+    album: "Cafe Zone • +003",
+    url: "audio_tracks/BlueNavi-Starcade.mp3",
+  },
+  {
+    title: "The Dark Woods",
+    artist: "Clone Me Twice",
+    album: "Inconnu",
+    url: "audio_tracks/CloneMeTwice_TheDarkWoods.mp3",
+  },
+  {
+    title: "Days Past",
+    artist: "In Closing",
+    album: "Self-titled",
+    url: "audio_tracks/InClosing-DaysPast.mp3",
+  },
+  {
     title: "Reset",
     artist: "Jaunter",
     album: "Time Capsule",
     url: "audio_tracks/Jaunter-Reset.mp3",
-    cover_album: "",
+  },
+  {
+    title: "Run",
+    artist: "Kai Engel",
+    album: "The Run",
+    url: "audio_tracks/KaiEngel-TheRun-02Run.mp3",
   },
   {
     title: "Airwaves",
     artist: "Olivaw",
     album: "Red Sun Rises",
     url: "audio_tracks/Olivaw-Airwaves.mp3",
-    cover_album: "",
   },
   {
     title: "Night",
     artist: "Kosmorider",
     album: "Geometry",
     url: "audio_tracks/Kosmorider-Night.mp3",
-    cover_album: "",
   },
 ];
 

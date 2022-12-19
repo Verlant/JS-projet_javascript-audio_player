@@ -93,9 +93,14 @@ aside {
 .song_info {
   @include mixin.figure(90%, 100px, var.$black-color);
   @include mixin.border(0px, solid, transparent, 20px, 20px, 20px, 20px);
+  overflow: hidden;
   span {
     @include mixin.figure(30px, 2px, transparent);
     @include mixin.border(1px, solid, var.$third-light-color, 0, 0, 0, 0);
+    overflow: hidden;
+  }
+  li {
+    overflow: hidden;
   }
 }
 .equaliser {

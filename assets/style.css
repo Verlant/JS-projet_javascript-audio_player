@@ -157,6 +157,7 @@ aside .container_list-song .list-song li {
   background-color: #222222;
   border: 0px solid transparent;
   border-radius: 20px 20px 20px 20px;
+  overflow: hidden;
 }
 .song_info span {
   width: 30px;
@@ -164,6 +165,10 @@ aside .container_list-song .list-song li {
   background-color: transparent;
   border: 1px solid #f6919c;
   border-radius: 0 0 0 0;
+  overflow: hidden;
+}
+.song_info li {
+  overflow: hidden;
 }
 
 .equaliser {
