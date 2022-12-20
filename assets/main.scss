@@ -21,10 +21,13 @@
   @include mixin.font(1.2rem, var.$white-color, var.$font-family, normal);
 }
 
+body {
+  overflow: hidden;
+}
+
 header,
 footer {
   @extend %size-header-footer;
-  // padding: 50px;
 }
 header {
   @include mixin.position(relative, auto, auto, auto, auto, 0);
@@ -45,7 +48,7 @@ nav {
     30px,
     30px
   );
-  margin-right: 14.5%;
+  margin-right: 10%;
 }
 ul {
   height: 100%;
@@ -58,10 +61,9 @@ span {
 main {
   @include mixin.figure(auto, calc(100vh - 300px), var.$secondary-color);
   @include mixin.flex(row, start, start, 0px);
-  //   padding-top: calc(0.1 * (100vh - 300px));
 }
 aside {
-  @include mixin.figure(20%, calc(90% + 150px), var.$black-color);
+  @include mixin.figure(30%, calc(90% + 150px), var.$black-color);
   @include mixin.border(0px, solid, transparent, 0, 20px, 0, 0);
   margin-top: calc(0.1 * (100vh - 300px));
   .playlist_title {
@@ -74,33 +76,54 @@ aside {
     @include mixin.flex(row, start, start, 0px);
     direction: rtl;
     overflow-y: scroll;
+    overflow-x: hidden;
     scrollbar-color: var.$secondary-light-color transparent;
     .list-song {
       @include mixin.figure(100%, 100%, transparent);
       @include mixin.flex(column, start, center, 0px);
-      li {
-        @include mixin.figure(100%, auto, transparent);
-        @include mixin.flex(row, center, center, 0px);
+      .song {
+        width: 100%;
+        direction: ltr;
         border-bottom: 1px solid var.$secondary-color;
+        // white-space: nowrap;
+        font-size: 1rem;
+        cursor: pointer;
+        padding: 5px;
+        text-align: left;
       }
     }
   }
 }
 .container {
-  @include mixin.figure(80%, 100%, transparent);
+  @include mixin.figure(70%, 100%, transparent);
   @include mixin.flex(column, space-evenly, center, 0);
 }
 .song_info {
-  @include mixin.figure(90%, 100px, var.$black-color);
+  @include mixin.figure(70%, 50px, var.$black-color);
   @include mixin.border(0px, solid, transparent, 20px, 20px, 20px, 20px);
+  @include mixin.flex(row, center, center, 0);
   overflow: hidden;
   span {
     @include mixin.figure(30px, 2px, transparent);
     @include mixin.border(1px, solid, var.$third-light-color, 0, 0, 0, 0);
-    overflow: hidden;
+    margin: 0 10px;
   }
   li {
-    overflow: hidden;
+    white-space: nowrap;
+  }
+  ul {
+    animation: Scroll 15s linear infinite;
+  }
+  @keyframes Scroll {
+    0% {
+      transform: translateX(100%);
+    }
+    50% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
   }
 }
 .equaliser {
@@ -114,7 +137,7 @@ footer {
   background: linear-gradient(var.$primary-light-color, var.$third-color);
   @include mixin.border(0px, solid, transparent, 50px, 50px, 100px, 100px);
   @include mixin.flex(column, space-evenly, center, 0);
-  margin-left: 20%;
+  margin-left: 30%;
 }
 .time-line {
   @include mixin.figure(80%, 2px, var.$black-color);
@@ -158,4 +181,9 @@ button {
 // ************************************************************************************ Class JS ********************************************************************************
 .JS-display_none {
   display: none;
+}
+.JS-current_song {
+  color: var.$primary-dark-color;
+  background-color: var.$secondary-dark-color;
+  box-shadow: inset;
 }
