@@ -76,7 +76,6 @@ aside {
     @include mixin.flex(row, start, start, 0px);
     direction: rtl;
     overflow-y: scroll;
-    overflow-x: hidden;
     scrollbar-color: var.$secondary-light-color transparent;
     .list-song {
       @include mixin.figure(100%, 100%, transparent);
@@ -88,7 +87,7 @@ aside {
         // white-space: nowrap;
         font-size: 1rem;
         cursor: pointer;
-        padding: 5px;
+        padding: 5px 12px;
         text-align: left;
       }
     }
@@ -132,6 +131,12 @@ aside {
 footer {
   @include mixin.flex(row, center, center, 0);
 }
+button {
+  @include mixin.figure(auto, auto, transparent);
+  @include mixin.flex(row, center, center, 0);
+  border: none;
+  cursor: pointer;
+}
 .player {
   @include mixin.figure(45%, 100px, transparent);
   background: linear-gradient(var.$primary-light-color, var.$third-color);
@@ -140,13 +145,13 @@ footer {
   margin-left: 30%;
 }
 .time-line {
-  @include mixin.figure(80%, 2px, var.$black-color);
+  @include mixin.figure(80%, auto, transparent);
   @include mixin.position(relative, auto, auto, auto, auto, 0);
-  .time_btn {
-    @include mixin.figure(10px, 10px, var.$black-color);
-    @include mixin.border(0px, solid, transparent, 50%, 50%, 50%, 50%);
-    @include mixin.position(absolute, -4px, auto, auto, -4px, 0);
-  }
+  // .timeline_input_range {
+  //   @include mixin.figure(auto, auto, var.$black-color);
+  //   @include mixin.border(0px, solid, transparent, 50%, 50%, 50%, 50%);
+  //   @include mixin.position(absolute, -4px, auto, auto, -4px, 0);
+  // }
   span {
     @include mixin.figure(auto, auto, transparent);
     border: none;
@@ -172,12 +177,10 @@ footer {
     @include mixin.flex(row, space-evenly, center, 0);
   }
 }
-button {
-  @include mixin.figure(auto, auto, transparent);
-  @include mixin.flex(row, center, center, 0);
-  border: none;
-  cursor: pointer;
+.sound_input_range {
+  @include mixin.position(absolute, auto, auto, auto, auto, 0);
 }
+
 // ************************************************************************************ Class JS ********************************************************************************
 .JS-display_none {
   display: none;

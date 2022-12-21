@@ -120,7 +120,6 @@ aside .container_list-song {
   gap: 0px;
   direction: rtl;
   overflow-y: scroll;
-  overflow-x: hidden;
   scrollbar-color: #64b4ef transparent;
 }
 aside .container_list-song .list-song {
@@ -139,7 +138,7 @@ aside .container_list-song .list-song .song {
   border-bottom: 1px solid #3e86ba;
   font-size: 1rem;
   cursor: pointer;
-  padding: 5px;
+  padding: 5px 12px;
   text-align: left;
 }
 
@@ -207,6 +206,19 @@ footer {
   gap: 0;
 }
 
+button {
+  width: auto;
+  height: auto;
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  border: none;
+  cursor: pointer;
+}
+
 .player {
   width: 45%;
   height: 100px;
@@ -224,26 +236,13 @@ footer {
 
 .time-line {
   width: 80%;
-  height: 2px;
-  background-color: #222222;
+  height: auto;
+  background-color: transparent;
   position: relative;
   top: auto;
   right: auto;
   bottom: auto;
   left: auto;
-  z-index: 0;
-}
-.time-line .time_btn {
-  width: 10px;
-  height: 10px;
-  background-color: #222222;
-  border: 0px solid transparent;
-  border-radius: 50% 50% 50% 50%;
-  position: absolute;
-  top: -4px;
-  right: auto;
-  bottom: auto;
-  left: -4px;
   z-index: 0;
 }
 .time-line span {
@@ -292,17 +291,13 @@ footer {
   gap: 0;
 }
 
-button {
-  width: auto;
-  height: auto;
-  background-color: transparent;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 0;
-  border: none;
-  cursor: pointer;
+.sound_input_range {
+  position: absolute;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  z-index: 0;
 }
 
 .JS-display_none {

@@ -1,3 +1,5 @@
+// *************************************** tableau d'objets des musique à jouer ***********************************************
+
 let song_list_arr = [
   {
     title: "Uncatchable",
@@ -69,7 +71,7 @@ let song_list_arr = [
     title: "Plasma",
     artist: "Meydän",
     album: "Album inconnu",
-    url: "audio_tracks/Meydän - Plasma.mp3",
+    url: "audio_tracks/Meydan-Plasma.mp3",
   },
   {
     title: "Synthwave Vibe",
@@ -121,7 +123,7 @@ let song_list_arr = [
   },
 ];
 
-console.log(song_list_arr[0].url);
+// ******************************* declaration globale des constante des element du dom **************************************
 
 const LIST_SONG = document.querySelector(".list-song");
 const ALL_SONG = document.querySelectorAll(".song");
@@ -133,9 +135,11 @@ const STOP_BTN = document.querySelector(".stop_btn");
 const NEXT_SONG_BTN = document.querySelector(".next_song_btn");
 const PREVIOUS_SONG_BTN = document.querySelector(".previous_song_btn");
 const THIS_SONG = document.querySelectorAll(".this_song");
+const TIME_LINE = document.querySelector(".timeline_input_range");
+const SOUND_BTN = document.querySelector(".sound_btn");
+const SOUND_BAR = document.querySelector(".sound_input_range");
 
-PAUSE_BTN.classList.add("JS-display_none");
-STOP_BTN.classList.add("JS-display_none");
+// ******************************************** declaration des fonction *****************************************************
 
 /**
  * Place les informations des musique du tableau song_list_arr dans la liste de lecture
@@ -157,7 +161,7 @@ function place_song_in_playlist(array) {
  */
 function set_url(node, song_array) {
   let url;
-  str_array = node.textContent.split(" - ");
+  str_array = node.textContent.split(" | ");
   song_array.forEach((element) => {
     if (element.title == str_array[0]) {
       url = element.url;
@@ -167,7 +171,9 @@ function set_url(node, song_array) {
 }
 
 /**
- * Fonction qui renvoie l'url de la prochaine chanson de la playlist, si la chanson actuelle est la dernière, renvoie l'url de la premiere de la playlist
+ * Fonction qui renvoie l'url de la prochaine chanson de la playlist,
+ * si la chanson actuelle est la dernière,
+ * renvoie l'url de la premiere de la playlist
  * @param {string} str_url chaine de caractere étant égal au chemin relatif de l'url de la chanson en cours
  * @param {array} song_array tableau d'objet représentant les chanson de la playslist
  * @returns string étant le chemin relatif de la chanson suivante dans la playlist
@@ -188,7 +194,9 @@ function next_song_url(str_url, song_array) {
 }
 
 /**
- * Fonction qui renvoie l'url de la précédente chanson de la playlist, si la chanson est la premiere de la liste, renvoie l'url de la derniere de la playlist
+ * Fonction qui renvoie l'url de la précédente chanson de la playlist,
+ * si la chanson est la premiere de la liste,
+ * renvoie l'url de la derniere de la playlist
  * @param {string} str_url chaine de caractere étant égal au chemin relatif de l'url de la chanson en cours
  * @param {array} song_array tableau d'objet représentant les chanson de la playslist
  * @returns string étant le chemin relatif de la chanson précédente dans la playlist
@@ -208,16 +216,75 @@ function previous_song_url(str_url, song_array) {
   return url;
 }
 
-function set_song_title(node_array, song_array) {
-  for (let index = 0; index < node_array.length; index++) {
-    const element = node_array[index];
-    element.textContent = song_array[index];
-  }
+/**
+ * Fonction renvoyant le chemin relatif de la page html où est contenu l'element
+ * @param {HTMLelement} media_element element HTML contenant un attribut src
+ * @returns le chemin relatif de src
+ */
+function get_relative_path_src_url(media_element) {
+  let url =
+    media_element.src.split("JavaScript/")[
+      media_element.src.split("JavaScript/").length - 1
+    ];
+  return url;
+}
+
+/**
+ * Fonction plaçant le titre, artiste et album de la chanson en cours dans la/les balise(s) HTML prévu a cet effet (THIS_SONG)
+ * @param {HTMLMediaElement} media_element media element contenant une valeur dans l'attribut source
+ * @param {array} song_array tableau d'objet contenant les chansons
+ */
+function set_song_title(media_element, song_array) {
+  let url = get_relative_path_src_url(media_element);
+  song_array.forEach((element) => {
+    if (url == element.url) {
+      THIS_SONG[0].textContent = element.title;
+      THIS_SONG[1].textContent = element.artist;
+      THIS_SONG[2].textContent = element.album;
+    }
+  });
+}
+
+/**
+ * Fonction changeant le style CSS la chanson en cours dans la playlist
+ * @param {node_list} playlist Liste de noeud html correspond a la playslit
+ * @param {HTMLMediaElement} media_element HTML element contenant un attribut src
+ * @param {array} song_array Tableau d'objet correspondant aux chansons disponible
+ */
+function set_current_song_CSS_in_playlist(playlist, media_element, song_array) {
+  let url = get_relative_path_src_url(media_element);
+  let this_song_title; //= playlist
+  playlist.forEach((playlist_element) => {
+    playlist_element.classList.remove("JS-current_song");
+    this_song_title = playlist_element.textContent.split(" | ")[0];
+    song_array.forEach((song_array_element) => {
+      if (
+        url == song_array_element.url &&
+        this_song_title == song_array_element.title
+      ) {
+        playlist_element.classList.add("JS-current_song");
+      }
+    });
+  });
 }
 
 place_song_in_playlist(song_list_arr);
 
+PAUSE_BTN.classList.add("JS-display_none");
+STOP_BTN.classList.add("JS-display_none");
+SOUND_BAR.classList.add("JS-display_none");
+
 AUDIO_PLAYER.src = song_list_arr[0].url;
+set_song_title(AUDIO_PLAYER, song_list_arr);
+
+setInterval(() => {
+  if (TIME_LINE.max != Math.round(AUDIO_PLAYER.duration)) {
+    TIME_LINE.max = Math.round(AUDIO_PLAYER.duration);
+  }
+  TIME_LINE.value = AUDIO_PLAYER.currentTime;
+}, 100);
+
+// ************************************************* declaration des evenement *************************************************
 
 ALL_SONG.forEach((element) => {
   element.addEventListener("click", (e) => {
@@ -226,10 +293,9 @@ ALL_SONG.forEach((element) => {
     PLAY_BTN.classList.add("JS-display_none");
     PAUSE_BTN.classList.remove("JS-display_none");
     STOP_BTN.classList.remove("JS-display_none");
-    ALL_SONG.forEach((element) => {
-      element.classList.remove("JS-current_song");
-    });
-    element.classList.add("JS-current_song");
+    set_song_title(AUDIO_PLAYER, song_list_arr);
+    set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
+    console.log(this.event.target);
   });
 });
 
@@ -255,21 +321,33 @@ STOP_BTN.addEventListener("click", (e) => {
 });
 
 NEXT_SONG_BTN.addEventListener("click", (e) => {
-  // déclaration du chemin relatif récupéré de la valeur de l'attribut source de <audio>
-  let url =
-    AUDIO_PLAYER.src.split("JavaScript/")[
-      AUDIO_PLAYER.src.split("JavaScript/").length - 1
-    ];
+  let url = get_relative_path_src_url(AUDIO_PLAYER);
   AUDIO_PLAYER.src = next_song_url(url, song_list_arr);
   AUDIO_PLAYER.play();
+  set_song_title(AUDIO_PLAYER, song_list_arr);
+  set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
 });
 
 PREVIOUS_SONG_BTN.addEventListener("click", (e) => {
-  // déclaration du chemin relatif récupéré de la valeur de l'attribut source de <audio>
-  let url =
-    AUDIO_PLAYER.src.split("JavaScript/")[
-      AUDIO_PLAYER.src.split("JavaScript/").length - 1
-    ];
+  let url = get_relative_path_src_url(AUDIO_PLAYER);
   AUDIO_PLAYER.src = previous_song_url(url, song_list_arr);
   AUDIO_PLAYER.play();
+  set_song_title(AUDIO_PLAYER, song_list_arr);
+  set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
+});
+
+AUDIO_PLAYER.addEventListener("ended", (e) => {
+  let url = get_relative_path_src_url(AUDIO_PLAYER);
+  AUDIO_PLAYER.src = next_song_url(url, song_list_arr);
+  AUDIO_PLAYER.play();
+  set_song_title(AUDIO_PLAYER, song_list_arr);
+  set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
+});
+
+TIME_LINE.addEventListener("change", (e) => {
+  AUDIO_PLAYER.currentTime = TIME_LINE.value;
+});
+
+SOUND_BTN.addEventListener("click", (e) => {
+  SOUND_BAR.classList.toggle("JS-display_none");
 });
