@@ -61,6 +61,17 @@ nav {
   border-radius: 100px 100px 30px 30px;
   margin-right: 10%;
 }
+nav span {
+  width: 2px;
+  height: 30px;
+  background-color: transparent;
+  border: 1px solid #f6919c;
+  border-radius: 0 0 0 0;
+}
+nav li:hover {
+  cursor: pointer;
+  color: #ea941c;
+}
 
 ul {
   height: 100%;
@@ -69,14 +80,6 @@ ul {
   justify-content: space-evenly;
   align-items: center;
   gap: 0px;
-}
-
-span {
-  width: 2px;
-  height: 30px;
-  background-color: transparent;
-  border: 1px solid #f6919c;
-  border-radius: 0 0 0 0;
 }
 
 main {
@@ -141,6 +144,9 @@ aside .container_list-song .list-song .song {
   padding: 5px 12px;
   text-align: left;
 }
+aside .container_list-song .list-song .song:hover {
+  background-color: #165482;
+}
 
 .container {
   width: 70%;
@@ -178,17 +184,14 @@ aside .container_list-song .list-song .song {
   white-space: nowrap;
 }
 .song_info ul {
-  animation: Scroll 15s linear infinite;
+  animation: Scroll 10s linear infinite;
 }
 @keyframes Scroll {
   0% {
-    transform: translateX(100%);
-  }
-  50% {
-    transform: translateX(0%);
+    margin-left: 200%;
   }
   100% {
-    transform: translateX(-100%);
+    margin-right: 200%;
   }
 }
 
@@ -235,7 +238,7 @@ button {
 }
 
 .time-line {
-  width: 80%;
+  width: 90%;
   height: auto;
   background-color: transparent;
   position: relative;
@@ -244,9 +247,42 @@ button {
   bottom: auto;
   left: auto;
   z-index: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0;
+}
+.time-line .timeline_input_range {
+  width: 80%;
+  height: 5px;
+  background-color: transparent;
+  border-radius: 20px;
+  background: #222222;
+  cursor: pointer;
+}
+.time-line .timeline_input_range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background-color: transparent;
+  background: #222222;
+  border: 2px solid #fbf5f3;
+  cursor: pointer;
+}
+.time-line .timeline_input_range::-moz-range-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background-color: transparent;
+  background: #222222;
+  border: 2px solid #fbf5f3;
+  cursor: pointer;
 }
 .time-line span {
-  width: auto;
+  width: 35px;
   height: auto;
   background-color: transparent;
   border: none;
@@ -254,22 +290,6 @@ button {
   color: #222222;
   font-family: "K2D", sans-serif;
   font-weight: normal;
-}
-.time-line .current-time {
-  position: absolute;
-  top: 10px;
-  right: auto;
-  bottom: auto;
-  left: -2.5%;
-  z-index: 0;
-}
-.time-line .end-time {
-  position: absolute;
-  top: 10px;
-  right: -2.5%;
-  bottom: auto;
-  left: auto;
-  z-index: 0;
 }
 
 .player-button {
@@ -291,8 +311,11 @@ button {
   gap: 0;
 }
 
-.sound_input_range {
-  position: absolute;
+.sound_options {
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  position: relative;
   top: auto;
   right: auto;
   bottom: auto;
@@ -300,14 +323,71 @@ button {
   z-index: 0;
 }
 
+.sound_btn {
+  position: relative;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  z-index: 0;
+}
+.sound_btn span {
+  width: 50px;
+  height: 65px;
+  background-color: transparent;
+  position: absolute;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: 0;
+  z-index: 0;
+}
+
+.sound_input_range {
+  width: 5px;
+  height: 65px;
+  background-color: transparent;
+  position: absolute;
+  top: auto;
+  right: 10px;
+  bottom: 0px;
+  left: auto;
+  z-index: 0;
+  border-radius: 20px;
+  background: #222222;
+  cursor: pointer;
+}
+
+.sound_input_range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  background-color: transparent;
+  background: #222222;
+  cursor: pointer;
+}
+
+.sound_input_range::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  background-color: transparent;
+  background: #222222;
+  border: 2px solid #fbf5f3;
+  cursor: pointer;
+}
+
 .JS-display_none {
   display: none;
 }
 
 .JS-current_song {
-  color: #da840c;
+  color: #ffa930;
   background-color: #165482;
   box-shadow: inset;
+}
+
+.JS-current_playlsit {
+  color: #ea941c;
 }
 
 /*# sourceMappingURL=style.css.map */

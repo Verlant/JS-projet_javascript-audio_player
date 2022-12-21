@@ -11,3 +11,4 @@ https://521dimensions.com/open-source/amplitudejs/docs/configuration/playlists.h
 https://webdeasy.de/en/programming-javascript-equalizer/
 https://orangeable.com/javascript/equalizer-web-audio-api
 https://www.youtube.com/watch?v=UcFgalsE34Q
+https://www.stashofcode.fr/tri-aleatoire-des-elements-dun-tableau/

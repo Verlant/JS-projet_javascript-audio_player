@@ -49,15 +49,20 @@ nav {
     30px
   );
   margin-right: 10%;
+  span {
+    @include mixin.figure(2px, 30px, transparent);
+    @include mixin.border(1px, solid, var.$third-light-color, 0, 0, 0, 0);
+  }
+  li:hover {
+    cursor: pointer;
+    color: var.$primary-color;
+  }
 }
 ul {
   height: 100%;
   @include mixin.flex(row, space-evenly, center, 0px);
 }
-span {
-  @include mixin.figure(2px, 30px, transparent);
-  @include mixin.border(1px, solid, var.$third-light-color, 0, 0, 0, 0);
-}
+
 main {
   @include mixin.figure(auto, calc(100vh - 300px), var.$secondary-color);
   @include mixin.flex(row, start, start, 0px);
@@ -90,6 +95,9 @@ aside {
         padding: 5px 12px;
         text-align: left;
       }
+      .song:hover {
+        background-color: var.$secondary-dark-color;
+      }
     }
   }
 }
@@ -111,18 +119,11 @@ aside {
     white-space: nowrap;
   }
   ul {
-    animation: Scroll 15s linear infinite;
+    animation: Scroll 10s linear infinite;
   }
   @keyframes Scroll {
-    0% {
-      transform: translateX(100%);
-    }
-    50% {
-      transform: translateX(0%);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
+    0% { margin-left: 200%; }
+    100% { margin-right: 200%; }
   }
 }
 .equaliser {
@@ -145,15 +146,33 @@ button {
   margin-left: 30%;
 }
 .time-line {
-  @include mixin.figure(80%, auto, transparent);
+  @include mixin.figure(90%, auto, transparent);
   @include mixin.position(relative, auto, auto, auto, auto, 0);
-  // .timeline_input_range {
-  //   @include mixin.figure(auto, auto, var.$black-color);
-  //   @include mixin.border(0px, solid, transparent, 50%, 50%, 50%, 50%);
-  //   @include mixin.position(absolute, -4px, auto, auto, -4px, 0);
-  // }
+  @include mixin.flex(row, space-between, center, 0);
+  .timeline_input_range {
+    @include mixin.figure(80%, 5px, transparent);
+    border-radius: 20px;
+    background: var.$black-color;
+    cursor: pointer;
+  }
+  .timeline_input_range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    @include mixin.figure(15px, 15px, transparent);
+    background: var.$black-color;
+    border: 2px solid var.$white-color;
+    cursor: pointer;
+  }
+  .timeline_input_range::-moz-range-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    @include mixin.figure(15px, 15px, transparent);
+    background: var.$black-color;
+    border: 2px solid var.$white-color;
+    cursor: pointer;
+  }
   span {
-    @include mixin.figure(auto, auto, transparent);
+    @include mixin.figure(35px, auto, transparent);
     border: none;
     @include mixin.font(
       0.5rem,
@@ -161,12 +180,6 @@ button {
       var.$font-family-bold,
       normal
     );
-  }
-  .current-time {
-    @include mixin.position(absolute, 10px, auto, auto, -2.5%, 0);
-  }
-  .end-time {
-    @include mixin.position(absolute, 10px, -2.5%, auto, auto, 0);
   }
 }
 .player-button {
@@ -177,8 +190,35 @@ button {
     @include mixin.flex(row, space-evenly, center, 0);
   }
 }
+.sound_options {
+  @include mixin.figure(30px, 30px, transparent);
+  @include mixin.position(relative, auto, auto, auto, auto, 0);
+}
+.sound_btn {
+  @include mixin.position(relative, auto, auto, auto, auto, 0);
+  span {
+    @include mixin.figure(50px, 65px, transparent);
+    @include mixin.position(absolute, auto, auto, auto, 0, 0);
+  }
+}
 .sound_input_range {
-  @include mixin.position(absolute, auto, auto, auto, auto, 0);
+  @include mixin.figure(5px, 65px, transparent);
+  @include mixin.position(absolute, auto, 10px, 0px, auto, 0);
+  border-radius: 20px;
+  background: var.$black-color;
+  cursor: pointer;
+}
+.sound_input_range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  @include mixin.figure(15px, 15px, transparent);
+  background: var.$black-color;
+  cursor: pointer;
+}
+.sound_input_range::-moz-range-thumb {
+  @include mixin.figure(15px, 15px, transparent);
+  background: var.$black-color;
+  border: 2px solid var.$white-color;
+  cursor: pointer;
 }
 
 // ************************************************************************************ Class JS ********************************************************************************
@@ -186,7 +226,10 @@ button {
   display: none;
 }
 .JS-current_song {
-  color: var.$primary-dark-color;
+  color: var.$primary-light-color;
   background-color: var.$secondary-dark-color;
   box-shadow: inset;
+}
+.JS-current_playlsit{
+  color: var.$primary-color;
 }

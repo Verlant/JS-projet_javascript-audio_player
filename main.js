@@ -125,7 +125,8 @@ let song_list_arr = [
 
 // ******************************* declaration globale des constante des element du dom **************************************
 
-const LIST_SONG = document.querySelector(".list-song");
+const CHOOSEN_PLAYLIST = document.querySelectorAll(".choosen_playlist");
+const PLAYLIST_TITLE = document.querySelector(".playlist_title");
 const ALL_SONG = document.querySelectorAll(".song");
 const AUDIO_PLAYER = document.querySelector("#audio_player");
 const ALL_AUDIO = document.querySelectorAll("audio");
@@ -136,18 +137,49 @@ const NEXT_SONG_BTN = document.querySelector(".next_song_btn");
 const PREVIOUS_SONG_BTN = document.querySelector(".previous_song_btn");
 const THIS_SONG = document.querySelectorAll(".this_song");
 const TIME_LINE = document.querySelector(".timeline_input_range");
+const CURRENT_TIME = document.querySelector(".current-time");
+const END_TIME = document.querySelector(".end-time");
 const SOUND_BTN = document.querySelector(".sound_btn");
+const SOUND_ICON = document.querySelector("#sound_icon");
+const SOUND_MUTED_ICON = document.querySelector("#mute_icon");
 const SOUND_BAR = document.querySelector(".sound_input_range");
 
 // ******************************************** declaration des fonction *****************************************************
 
 /**
- * Place les informations des musique du tableau song_list_arr dans la liste de lecture
- * @param {array} array
+ * Fonction qui renvoie un entier aléatoier compris en min et max
+ * @param {int} min entier minimal renvoyé par la fonction
+ * @param {int} max entier maximal renvoyé par la fonction
+ * @returns Un entier aléatoire compris entre min et max
  */
-function place_song_in_playlist(array) {
-  for (let index = 0; index < array.length; index++) {
-    const element = array[index];
+function randomInt(min, max) {
+  return min + Math.floor((max - min + 1) * Math.random());
+}
+
+/**
+ * Fonction qui trie aléatoirement un tableau
+ * @param {array} items
+ * @returns
+ */
+function shuffle(items) {
+  let i, j;
+  let item;
+  if (!items.length || items.length == 1) return;
+  for (i = items.length - 1; i != 0; i--) {
+    j = randomInt(0, i);
+    item = items[j];
+    items[j] = items[i];
+    items[i] = item;
+  }
+}
+
+/**
+ * Place les informations des musique du tableau song_list_arr dans la liste de lecture
+ * @param {array} song_array
+ */
+function place_song_in_playlist(song_array) {
+  for (let index = 0; index < song_array.length; index++) {
+    const element = song_array[index];
     ALL_SONG[index].textContent =
       element.title + " | " + element.artist + " | " + element.album;
   }
@@ -268,21 +300,130 @@ function set_current_song_CSS_in_playlist(playlist, media_element, song_array) {
   });
 }
 
-place_song_in_playlist(song_list_arr);
+/**
+ * Fonction gérant la time line : affiche le temps actuel ou est la musique,
+ * affiche le temps total de la musique,
+ * affiche le pointeur sur la barre de défilement par rapport a l'avancement de la musique.
+ * Cette fonction est utilisé dans un setInterval
+ */
+function time_line() {
+  TIME_LINE.max = Math.round(AUDIO_PLAYER.duration);
+  if (Math.floor(AUDIO_PLAYER.duration) % 60 < 10) {
+    END_TIME.textContent =
+      "0" +
+      Math.floor(AUDIO_PLAYER.duration / 60) +
+      " : " +
+      "0" +
+      Math.floor(AUDIO_PLAYER.duration % 60);
+  } else {
+    END_TIME.textContent =
+      "0" +
+      Math.floor(AUDIO_PLAYER.duration / 60) +
+      " : " +
+      Math.floor(AUDIO_PLAYER.duration % 60);
+  }
+  TIME_LINE.value = AUDIO_PLAYER.currentTime;
+  if (
+    Math.floor(AUDIO_PLAYER.currentTime / 60) < 10 &&
+    Math.floor(AUDIO_PLAYER.currentTime) % 60 < 10
+  ) {
+    CURRENT_TIME.textContent =
+      "0" +
+      Math.floor(AUDIO_PLAYER.currentTime / 60) +
+      " : " +
+      "0" +
+      Math.floor(AUDIO_PLAYER.currentTime % 60);
+  } else if (Math.floor(AUDIO_PLAYER.currentTime / 60) < 10) {
+    CURRENT_TIME.textContent =
+      "0" +
+      Math.floor(AUDIO_PLAYER.currentTime / 60) +
+      " : " +
+      Math.floor(AUDIO_PLAYER.currentTime % 60);
+  } else if (Math.floor(AUDIO_PLAYER.currentTime) % 60 < 10) {
+    CURRENT_TIME.textContent =
+      Math.floor(AUDIO_PLAYER.currentTime / 60) +
+      " : " +
+      "0" +
+      Math.floor(AUDIO_PLAYER.currentTime % 60);
+  } else {
+    CURRENT_TIME.textContent =
+      Math.floor(AUDIO_PLAYER.currentTime / 60) +
+      " : " +
+      Math.floor(AUDIO_PLAYER.currentTime % 60);
+  }
+}
+
+// /**
+//  * Fonctione classe aléatoirement le tableau contenant les musique puis les place dans la playlsit
+//  * @param {array} song_array
+//  */
+// function random_playlist(song_array) {
+//   shuffle(song_array);
+//   place_song_in_playlist(song_array);
+//   PLAYLIST_TITLE.textContent = "Liste aléatoire";
+//   AUDIO_PLAYER.src = song_array[0].url;
+//   set_song_title(AUDIO_PLAYER, song_array);
+//   set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_array);
+// }
+
+/**
+ * Fonctione qui crée la playlist
+ * @param {array} song_array
+ * @param {element} element
+ */
+function set_playlist(song_array, element) {
+  let sort_arr = [];
+  switch (element.textContent) {
+    case "Chansons":
+      sort_arr = song_array.sort((a, b) => a.title.localeCompare(b.title));
+      place_song_in_playlist(sort_arr);
+      PLAYLIST_TITLE.textContent = "Liste par chanson";
+      AUDIO_PLAYER.src = sort_arr[0].url;
+      set_song_title(AUDIO_PLAYER, sort_arr);
+      set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, sort_arr);
+      break;
+    case "Artiste":
+      sort_arr = song_array.sort((a, b) => a.artist.localeCompare(b.artist));
+      place_song_in_playlist(sort_arr);
+      PLAYLIST_TITLE.textContent = "Liste par artiste";
+      AUDIO_PLAYER.src = sort_arr[0].url;
+      set_song_title(AUDIO_PLAYER, sort_arr);
+      set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, sort_arr);
+      break;
+    case "Album":
+      sort_arr = song_array.sort((a, b) => a.album.localeCompare(b.album));
+      place_song_in_playlist(sort_arr);
+      PLAYLIST_TITLE.textContent = "Liste par album";
+      // AUDIO_PLAYER.src = sort_arr[0].url;
+      // set_song_title(AUDIO_PLAYER, sort_arr);
+      // set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, sort_arr);
+      break;
+    case "Aléatoire":
+      shuffle(song_array);
+      place_song_in_playlist(song_array);
+      PLAYLIST_TITLE.textContent = "Liste aléatoire";
+      AUDIO_PLAYER.src = song_array[0].url;
+      set_song_title(AUDIO_PLAYER, song_array);
+      set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_array);
+      break;
+    default:
+      break;
+  }
+  place_song_in_playlist(sort_arr);
+}
 
 PAUSE_BTN.classList.add("JS-display_none");
 STOP_BTN.classList.add("JS-display_none");
 SOUND_BAR.classList.add("JS-display_none");
+SOUND_MUTED_ICON.classList.add("JS-display_none");
 
-AUDIO_PLAYER.src = song_list_arr[0].url;
-set_song_title(AUDIO_PLAYER, song_list_arr);
+//initialise une liste de lecture aléatoire lors de l'ouverture ou du rafraichissement de la page
+// random_playlist(song_list_arr);
 
-setInterval(() => {
-  if (TIME_LINE.max != Math.round(AUDIO_PLAYER.duration)) {
-    TIME_LINE.max = Math.round(AUDIO_PLAYER.duration);
-  }
-  TIME_LINE.value = AUDIO_PLAYER.currentTime;
-}, 100);
+place_song_in_playlist(song_list_arr);
+
+//rafaichi la barre de lecture de la musique actuelle
+setInterval(time_line, 100);
 
 // ************************************************* declaration des evenement *************************************************
 
@@ -295,7 +436,6 @@ ALL_SONG.forEach((element) => {
     STOP_BTN.classList.remove("JS-display_none");
     set_song_title(AUDIO_PLAYER, song_list_arr);
     set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
-    console.log(this.event.target);
   });
 });
 
@@ -348,6 +488,36 @@ TIME_LINE.addEventListener("change", (e) => {
   AUDIO_PLAYER.currentTime = TIME_LINE.value;
 });
 
-SOUND_BTN.addEventListener("click", (e) => {
+SOUND_BTN.addEventListener("mouseover", (e) => {
   SOUND_BAR.classList.toggle("JS-display_none");
+});
+
+SOUND_BTN.addEventListener("mouseout", (e) => {
+  SOUND_BAR.classList.toggle("JS-display_none");
+});
+
+SOUND_BAR.addEventListener("change", (e) => {
+  AUDIO_PLAYER.volume = SOUND_BAR.value;
+  if (SOUND_BAR.value == 0) {
+    SOUND_MUTED_ICON.classList.remove("JS-display_none");
+    SOUND_ICON.classList.add("JS-display_none");
+  } else {
+    SOUND_ICON.classList.remove("JS-display_none");
+    SOUND_MUTED_ICON.classList.add("JS-display_none");
+  }
+});
+
+CHOOSEN_PLAYLIST.forEach((element) => {
+  element.addEventListener("click", (e) => {
+    CHOOSEN_PLAYLIST.forEach((style_element) => {
+      style_element.classList.remove("JS-current_playlsit");
+    });
+    element.classList.add("JS-current_playlsit");
+    set_playlist(song_list_arr, element);
+    AUDIO_PLAYER.pause();
+    AUDIO_PLAYER.currentTime = 0;
+    PAUSE_BTN.classList.add("JS-display_none");
+    STOP_BTN.classList.add("JS-display_none");
+    PLAY_BTN.classList.remove("JS-display_none");
+  });
 });

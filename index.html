@@ -13,11 +13,13 @@
       <img src="assets/logo.png" alt="logo" class="logo" />
       <nav>
         <ul>
-          <li>Chansons</li>
+          <li class="choosen_playlist">Chansons</li>
           <span></span>
-          <li>Artiste</li>
+          <li class="choosen_playlist">Artiste</li>
           <span></span>
-          <li>Album</li>
+          <li class="choosen_playlist">Album</li>
+          <span></span>
+          <li class="choosen_playlist">Aléatoire</li>
         </ul>
       </nav>
     </header>
@@ -95,17 +97,23 @@
             <img src="assets/next_song_icon.svg" alt="next song icon" />
           </button>
           <button class="sound_btn">
-            <img src="assets/akar-icons_sound-on.svg" alt="sound icon" />
+            <img src="assets/sound-on.svg" alt="sound icon" id="sound_icon" />
+            <img
+              src="assets/sound-off.svg"
+              alt="sound muted icon"
+              id="mute_icon"
+            />
+            <span>
+              <input
+                type="range"
+                class="sound_input_range"
+                min="0"
+                max="1"
+                step="0.1"
+                orient="vertical"
+              />
+            </span>
           </button>
-          <input
-            type="range"
-            class="sound_input_range"
-            min="0"
-            max="1"
-            step="0.1"
-            value="0.5"
-            orient="vertical"
-          />
         </div>
       </div>
     </footer>
