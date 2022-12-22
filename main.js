@@ -309,6 +309,14 @@ function set_current_song_CSS_in_playlist(playlist, media_element, song_array) {
  * Cette fonction est utilisé dans un setInterval
  */
 function time_line() {
+  const CURRENT_SONG = document.querySelector(".JS-current_song");
+  CURRENT_SONG.style.boxShadow =
+    "inset " +
+    Math.round((AUDIO_PLAYER.currentTime / AUDIO_PLAYER.duration) * 100) * 3.6 +
+    "px " +
+    "0px " +
+    "2px " +
+    "rgba(34, 34, 34, 0.5)";
   TIME_LINE.max = Math.round(AUDIO_PLAYER.duration);
   if (Math.floor(AUDIO_PLAYER.duration) % 60 < 10) {
     END_TIME.textContent =
@@ -477,8 +485,9 @@ SOUND_MUTED_ICON.classList.add("JS-display_none");
 place_song_in_playlist(song_list_arr);
 
 //rafaichi la barre de lecture de la musique actuelle
-setInterval(time_line, 100);
-
+let time_line_interval;
+TIME_LINE.value = 0;
+END_TIME.textContent = "00:00";
 // ************************************************* declaration des evenement *************************************************
 
 ALL_SONG.forEach((element) => {
@@ -495,6 +504,8 @@ ALL_SONG.forEach((element) => {
     equalizer_interval = setInterval(() => {
       setRandomBars(MAX_BAR_HEIGHT);
     }, 200);
+    clearInterval(time_line_interval);
+    time_line_interval = setInterval(time_line, 100);
   });
 });
 
@@ -517,6 +528,8 @@ PLAY_BTN.addEventListener("click", (e) => {
   equalizer_interval = setInterval(() => {
     setRandomBars(MAX_BAR_HEIGHT);
   }, 200);
+  clearInterval(time_line_interval);
+  time_line_interval = setInterval(time_line, 100);
 });
 
 PAUSE_BTN.addEventListener("click", (e) => {
@@ -524,7 +537,9 @@ PAUSE_BTN.addEventListener("click", (e) => {
   PAUSE_BTN.classList.add("JS-display_none");
   PLAY_BTN.classList.remove("JS-display_none");
   clearInterval(equalizer_interval);
-  addBarSpans();
+  equalizer_interval = setInterval(() => {
+    setRandomBars(5);
+  }, 200);
 });
 
 STOP_BTN.addEventListener("click", (e) => {
@@ -534,7 +549,9 @@ STOP_BTN.addEventListener("click", (e) => {
   STOP_BTN.classList.add("JS-display_none");
   PLAY_BTN.classList.remove("JS-display_none");
   clearInterval(equalizer_interval);
-  addBarSpans();
+  equalizer_interval = setInterval(() => {
+    setRandomBars(1);
+  }, 200);
 });
 
 NEXT_SONG_BTN.addEventListener("click", (e) => {
