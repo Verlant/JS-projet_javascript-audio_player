@@ -159,7 +159,7 @@ aside .container_list-song .list-song .song:hover {
   gap: 0;
 }
 
-.song_info {
+.this_song_info_container {
   width: 70%;
   height: 50px;
   background-color: #222222;
@@ -172,7 +172,7 @@ aside .container_list-song .list-song .song:hover {
   gap: 0;
   overflow: hidden;
 }
-.song_info span {
+.this_song_info_container span {
   width: 30px;
   height: 2px;
   background-color: transparent;
@@ -180,10 +180,10 @@ aside .container_list-song .list-song .song:hover {
   border-radius: 0 0 0 0;
   margin: 0 10px;
 }
-.song_info li {
+.this_song_info_container li {
   white-space: nowrap;
 }
-.song_info ul {
+.this_song_info_container ul {
   animation: Scroll 10s linear infinite;
 }
 @keyframes Scroll {
@@ -195,10 +195,78 @@ aside .container_list-song .list-song .song:hover {
   }
 }
 
-.equaliser {
-  width: 60%;
-  height: 70%;
+.equalizer {
+  width: 70%;
+  height: 50%;
   background-color: #222222;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: end;
+  gap: 0;
+  border-radius: 25px;
+  padding: 25px;
+}
+.equalizer .equalizer-bar {
+  width: 1.8rem;
+  margin: 0 3px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+.equalizer .equalizer-bar span {
+  display: block;
+  height: 4px;
+  border-radius: 2px;
+  width: 100%;
+  margin: 2px 0;
+  background-color: #FFF;
+  transition: 0.2s ease all;
+  opacity: 1;
+}
+.equalizer .equalizer-bar:nth-child(1) span {
+  background: #fc0127;
+}
+.equalizer .equalizer-bar:nth-child(2) span {
+  background: #fb0275;
+}
+.equalizer .equalizer-bar:nth-child(3) span {
+  background: #b50cd3;
+}
+.equalizer .equalizer-bar:nth-child(4) span {
+  background: #6407e9;
+}
+.equalizer .equalizer-bar:nth-child(5) span {
+  background: #2a06a9;
+}
+.equalizer .equalizer-bar:nth-child(6) span {
+  background: #080ad7;
+}
+.equalizer .equalizer-bar:nth-child(7) span {
+  background: #0265e2;
+}
+.equalizer .equalizer-bar:nth-child(8) span {
+  background: #03fcfc;
+}
+.equalizer .equalizer-bar:nth-child(9) span {
+  background: #02fe46;
+}
+.equalizer .equalizer-bar:nth-child(10) span {
+  background: #05fb0f;
+}
+.equalizer .equalizer-bar:nth-child(11) span {
+  background: #97f611;
+}
+.equalizer .equalizer-bar:nth-child(12) span {
+  background: #f5e506;
+}
+.equalizer .equalizer-bar:nth-child(13) span {
+  background: #d7a414;
+}
+.equalizer .equalizer-bar:nth-child(14) span {
+  background: #fc6b02;
+}
+.equalizer .equalizer-bar:nth-child(15) span {
+  background: #df1506;
 }
 
 footer {

@@ -105,7 +105,7 @@ aside {
   @include mixin.figure(70%, 100%, transparent);
   @include mixin.flex(column, space-evenly, center, 0);
 }
-.song_info {
+.this_song_info_container {
   @include mixin.figure(70%, 50px, var.$black-color);
   @include mixin.border(0px, solid, transparent, 20px, 20px, 20px, 20px);
   @include mixin.flex(row, center, center, 0);
@@ -126,8 +126,89 @@ aside {
     100% { margin-right: 200%; }
   }
 }
-.equaliser {
-  @include mixin.figure(60%, 70%, var.$black-color);
+.equalizer {
+  @include mixin.figure(70%, 50%, var.$black-color);
+  @include mixin.flex(row, start, end, 0);
+  border-radius: 25px;
+  padding: 25px;
+  .equalizer-bar {
+    width: 1.8rem;
+    margin: 0 3px;
+    display: flex;
+    flex-direction: column-reverse;
+    
+    span {
+      display: block;
+      height: 4px;
+      border-radius: 2px;
+      width: 100%;
+      margin: 2px 0;
+      background-color: #FFF;
+      transition: .2s ease all;
+      opacity: 1;
+    }
+    
+    &:nth-child(1) span {
+      background: #fc0127;
+    }
+    
+    &:nth-child(2) span {
+      background: #fb0275;
+    }
+    
+    &:nth-child(3) span {
+      background: #b50cd3;
+    }
+    
+    &:nth-child(4) span {
+      background: #6407e9;
+    }
+    
+    &:nth-child(5) span {
+      background: #2a06a9;
+    }
+    
+    &:nth-child(6) span {
+      background: #080ad7;
+    }
+    
+    &:nth-child(7) span {
+      background: #0265e2;
+    }
+    
+    &:nth-child(8) span {
+      background: #03fcfc;
+    }
+    
+    &:nth-child(9) span {
+      background: #02fe46;
+    }
+    
+    &:nth-child(10) span {
+      background: #05fb0f;
+    }
+    
+    &:nth-child(11) span {
+      background: #97f611;
+    }
+    
+    &:nth-child(12) span {
+      background: #f5e506;
+    }
+    
+    &:nth-child(13) span {
+      background: #d7a414;
+    }
+    
+    &:nth-child(14) span {
+      background: #fc6b02;
+    }
+    
+    &:nth-child(15) span {
+      background: #df1506;
+    }
+    
+  }
 }
 footer {
   @include mixin.flex(row, center, center, 0);

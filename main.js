@@ -135,6 +135,8 @@ const PAUSE_BTN = document.querySelector(".pause_btn");
 const STOP_BTN = document.querySelector(".stop_btn");
 const NEXT_SONG_BTN = document.querySelector(".next_song_btn");
 const PREVIOUS_SONG_BTN = document.querySelector(".previous_song_btn");
+const SONG_INFO_CONTAINER = document.querySelector(".this_song_info_container");
+const THIS_SONG_INFO = document.querySelector(".this_song_info");
 const THIS_SONG = document.querySelectorAll(".this_song");
 const TIME_LINE = document.querySelector(".timeline_input_range");
 const CURRENT_TIME = document.querySelector(".current-time");
@@ -378,38 +380,93 @@ function set_playlist(song_array, element) {
       sort_arr = song_array.sort((a, b) => a.title.localeCompare(b.title));
       place_song_in_playlist(sort_arr);
       PLAYLIST_TITLE.textContent = "Liste par chanson";
-      AUDIO_PLAYER.src = sort_arr[0].url;
-      set_song_title(AUDIO_PLAYER, sort_arr);
-      set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, sort_arr);
+      set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
       break;
     case "Artiste":
       sort_arr = song_array.sort((a, b) => a.artist.localeCompare(b.artist));
       place_song_in_playlist(sort_arr);
       PLAYLIST_TITLE.textContent = "Liste par artiste";
-      AUDIO_PLAYER.src = sort_arr[0].url;
-      set_song_title(AUDIO_PLAYER, sort_arr);
       set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, sort_arr);
       break;
     case "Album":
       sort_arr = song_array.sort((a, b) => a.album.localeCompare(b.album));
       place_song_in_playlist(sort_arr);
       PLAYLIST_TITLE.textContent = "Liste par album";
-      // AUDIO_PLAYER.src = sort_arr[0].url;
-      // set_song_title(AUDIO_PLAYER, sort_arr);
-      // set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, sort_arr);
+      set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, sort_arr);
       break;
     case "Aléatoire":
       shuffle(song_array);
       place_song_in_playlist(song_array);
       PLAYLIST_TITLE.textContent = "Liste aléatoire";
-      AUDIO_PLAYER.src = song_array[0].url;
-      set_song_title(AUDIO_PLAYER, song_array);
       set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_array);
       break;
     default:
       break;
   }
   place_song_in_playlist(sort_arr);
+}
+
+//*********************************************************** EQUALIZER ***********************************************************/
+
+const MAX_BAR_HEIGHT = 20;
+
+addBarSpans();
+
+let equalizer_interval;
+
+// Main programm (repeats)
+function setRandomBars() {
+  const bars = document.getElementsByClassName("equalizer-bar");
+
+  for (let i = 0; i < bars.length; i++) {
+    let spans = bars[i].getElementsByTagName("span");
+    let activeSpanCount = getActiveSpans(spans);
+    let newHeight = getRandomHeight(MAX_BAR_HEIGHT);
+
+    for (let j = 0; j < spans.length; j++) {
+      if (newHeight > activeSpanCount) {
+        spans[j].style.opacity = "1";
+      } else if (j > newHeight) {
+        spans[j].style.opacity = "0";
+      }
+
+      // set little opacity
+      let upperSpan = MAX_BAR_HEIGHT - j;
+      if (newHeight > MAX_BAR_HEIGHT - 5 && upperSpan < 5) {
+        spans[j].style.opacity = "0." + upperSpan;
+      }
+    }
+  }
+}
+
+// Returns the number of active spans
+function getActiveSpans(spans) {
+  let counter = 0;
+
+  for (let i = 0; i < spans.length; i++) {
+    if (spans[i].style.opacity > 0) counter++;
+  }
+
+  return counter;
+}
+
+// Returns a random number between 1 and 20
+function getRandomHeight(maxBarHeight) {
+  return Math.round(Math.random() * (maxBarHeight - 1)) + 1;
+}
+
+// Add the default spans
+function addBarSpans() {
+  const bars = document.getElementsByClassName("equalizer-bar");
+
+  let html = "";
+  for (let j = 0; j < MAX_BAR_HEIGHT; j++) {
+    html += "<span></span>";
+  }
+
+  for (let i = 0; i < bars.length; i++) {
+    bars[i].innerHTML = html;
+  }
 }
 
 PAUSE_BTN.classList.add("JS-display_none");
@@ -425,6 +482,8 @@ place_song_in_playlist(song_list_arr);
 //rafaichi la barre de lecture de la musique actuelle
 setInterval(time_line, 100);
 
+console.log(get_relative_path_src_url(AUDIO_PLAYER));
+
 // ************************************************* declaration des evenement *************************************************
 
 ALL_SONG.forEach((element) => {
@@ -436,20 +495,34 @@ ALL_SONG.forEach((element) => {
     STOP_BTN.classList.remove("JS-display_none");
     set_song_title(AUDIO_PLAYER, song_list_arr);
     set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
+    clearInterval(equalizer_interval);
+    equalizer_interval = setInterval(() => {
+      setRandomBars();
+    }, 200);
   });
 });
 
 PLAY_BTN.addEventListener("click", (e) => {
+  if (get_relative_path_src_url(AUDIO_PLAYER) == "index.html") {
+    AUDIO_PLAYER.src = song_list_arr[0].url;
+    set_song_title(AUDIO_PLAYER, song_list_arr);
+    set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
+  }
   AUDIO_PLAYER.play();
   PLAY_BTN.classList.add("JS-display_none");
   PAUSE_BTN.classList.remove("JS-display_none");
   STOP_BTN.classList.remove("JS-display_none");
+  clearInterval(equalizer_interval);
+  equalizer_interval = setInterval(() => {
+    setRandomBars();
+  }, 200);
 });
 
 PAUSE_BTN.addEventListener("click", (e) => {
   AUDIO_PLAYER.pause();
   PAUSE_BTN.classList.add("JS-display_none");
   PLAY_BTN.classList.remove("JS-display_none");
+  clearInterval(equalizer_interval);
 });
 
 STOP_BTN.addEventListener("click", (e) => {
@@ -458,6 +531,7 @@ STOP_BTN.addEventListener("click", (e) => {
   PAUSE_BTN.classList.add("JS-display_none");
   STOP_BTN.classList.add("JS-display_none");
   PLAY_BTN.classList.remove("JS-display_none");
+  clearInterval(equalizer_interval);
 });
 
 NEXT_SONG_BTN.addEventListener("click", (e) => {
@@ -466,6 +540,10 @@ NEXT_SONG_BTN.addEventListener("click", (e) => {
   AUDIO_PLAYER.play();
   set_song_title(AUDIO_PLAYER, song_list_arr);
   set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
+  clearInterval(equalizer_interval);
+  equalizer_interval = setInterval(() => {
+    setRandomBars();
+  }, 200);
 });
 
 PREVIOUS_SONG_BTN.addEventListener("click", (e) => {
@@ -474,6 +552,10 @@ PREVIOUS_SONG_BTN.addEventListener("click", (e) => {
   AUDIO_PLAYER.play();
   set_song_title(AUDIO_PLAYER, song_list_arr);
   set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
+  clearInterval(equalizer_interval);
+  equalizer_interval = setInterval(() => {
+    setRandomBars();
+  }, 200);
 });
 
 AUDIO_PLAYER.addEventListener("ended", (e) => {
@@ -482,6 +564,10 @@ AUDIO_PLAYER.addEventListener("ended", (e) => {
   AUDIO_PLAYER.play();
   set_song_title(AUDIO_PLAYER, song_list_arr);
   set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
+  clearInterval(equalizer_interval);
+  equalizer_interval = setInterval(() => {
+    setRandomBars();
+  }, 200);
 });
 
 TIME_LINE.addEventListener("change", (e) => {
@@ -496,7 +582,7 @@ SOUND_BTN.addEventListener("mouseout", (e) => {
   SOUND_BAR.classList.toggle("JS-display_none");
 });
 
-SOUND_BAR.addEventListener("change", (e) => {
+SOUND_BAR.addEventListener("input", (e) => {
   AUDIO_PLAYER.volume = SOUND_BAR.value;
   if (SOUND_BAR.value == 0) {
     SOUND_MUTED_ICON.classList.remove("JS-display_none");
@@ -514,10 +600,82 @@ CHOOSEN_PLAYLIST.forEach((element) => {
     });
     element.classList.add("JS-current_playlsit");
     set_playlist(song_list_arr, element);
-    AUDIO_PLAYER.pause();
-    AUDIO_PLAYER.currentTime = 0;
-    PAUSE_BTN.classList.add("JS-display_none");
-    STOP_BTN.classList.add("JS-display_none");
-    PLAY_BTN.classList.remove("JS-display_none");
+    // AUDIO_PLAYER.pause();
+    // AUDIO_PLAYER.currentTime = 0;
+    // PAUSE_BTN.classList.add("JS-display_none");
+    // STOP_BTN.classList.add("JS-display_none");
+    // PLAY_BTN.classList.remove("JS-display_none");
+    clearInterval(equalizer_interval);
   });
 });
+
+//******************************************************* TEST ********************************************************/
+
+// let canvas,
+//   ctx,
+//   source,
+//   context,
+//   analyser,
+//   fbc_array,
+//   bar_count,
+//   bar_pos,
+//   bar_width,
+//   bar_height;
+
+// let audio = new Audio();
+
+// audio.id = "audio_player";
+// audio.src = song_list_arr[0];
+// audio.controls = true;
+// audio.loop = false;
+// audio.autoplay = false;
+
+// window.addEventListener(
+//   "load",
+//   function () {
+//     document.getElementById("equaliser").appendChild(audio);
+
+//     AUDIO_PLAYER.onplay = function () {
+//       if (typeof context === "undefined") {
+//         context = new AudioContext();
+//         analyser = context.createAnalyser();
+//         canvas = document.getElementById("canvas");
+//         ctx = canvas.getContext("2d");
+//         source = context.createMediaElementSource(AUDIO_PLAYER);
+
+//         canvas.width = window.innerWidth * 0.8;
+//         canvas.height = window.innerHeight * 0.6;
+
+//         source.connect(analyser);
+//         analyser.connect(context.destination);
+//       }
+
+//       FrameLooper();
+//     };
+//   },
+//   false
+// );
+
+// function FrameLooper() {
+//   window.RequestAnimationFrame =
+//     window.requestAnimationFrame(FrameLooper) ||
+//     window.msRequestAnimationFrame(FrameLooper) ||
+//     window.mozRequestAnimationFrame(FrameLooper) ||
+//     window.webkitRequestAnimationFrame(FrameLooper);
+
+//   fbc_array = new Uint8Array(analyser.frequencyBinCount);
+//   bar_count = window.innerWidth / 2;
+
+//   analyser.getByteFrequencyData(fbc_array);
+
+//   ctx.clearRect(0, 0, canvas.width, canvas.height);
+//   ctx.fillStyle = "#ffffff";
+
+//   for (let i = 0; i < bar_count; i++) {
+//     bar_pos = i * 4;
+//     bar_width = 2;
+//     bar_height = -(fbc_array[i] / 2);
+
+//     ctx.fillRect(bar_pos, canvas.height, bar_width, bar_height);
+//   }
+// }
