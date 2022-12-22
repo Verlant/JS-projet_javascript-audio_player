@@ -510,11 +510,7 @@ ALL_SONG.forEach((element) => {
 });
 
 PLAY_BTN.addEventListener("click", (e) => {
-  if (
-    get_relative_path_src_url(AUDIO_PLAYER).split("/")[
-      get_relative_path_src_url(AUDIO_PLAYER).split("/").length - 1
-    ] == "index.html"
-  ) {
+  if (AUDIO_PLAYER.src == document.location.href) {
     AUDIO_PLAYER.src = song_list_arr[0].url;
     set_song_title(AUDIO_PLAYER, song_list_arr);
     set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
