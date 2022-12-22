@@ -310,13 +310,11 @@ function set_current_song_CSS_in_playlist(playlist, media_element, song_array) {
  */
 function time_line() {
   const CURRENT_SONG = document.querySelector(".JS-current_song");
-  CURRENT_SONG.style.boxShadow =
-    "inset " +
-    Math.round((AUDIO_PLAYER.currentTime / AUDIO_PLAYER.duration) * 100) * 3.6 +
-    "px " +
-    "0px " +
-    "2px " +
-    "rgba(34, 34, 34, 0.5)";
+  CURRENT_SONG.style.background =
+    "linear-gradient(90deg, rgba(34, 34, 34, 0.8) " +
+    Math.round((AUDIO_PLAYER.currentTime / AUDIO_PLAYER.duration) * 100) +
+    "%," +
+    "#165482)";
   TIME_LINE.max = Math.round(AUDIO_PLAYER.duration);
   if (Math.floor(AUDIO_PLAYER.duration) % 60 < 10) {
     END_TIME.textContent =
