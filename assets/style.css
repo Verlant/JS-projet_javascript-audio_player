@@ -70,7 +70,7 @@ nav span {
 }
 nav li:hover {
   cursor: pointer;
-  color: #ea941c;
+  color: #e16f7c;
 }
 
 ul {
@@ -440,7 +440,7 @@ button {
 }
 
 .JS-current_playlsit {
-  color: #ea941c;
+  color: #e16f7c;
 }
 
 /*# sourceMappingURL=style.css.map */

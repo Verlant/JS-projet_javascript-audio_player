@@ -486,10 +486,13 @@ SOUND_MUTED_ICON.classList.add("JS-display_none");
 //Place la playslit dans l'ordre du tableau de musique de base au chargement de la page
 place_song_in_playlist(song_list_arr);
 
-//rafaichi la barre de lecture de la musique actuelle
+//Déclaration variable et affectation d'autres
 let time_line_interval;
 TIME_LINE.value = 0;
 END_TIME.textContent = "00:00";
+SOUND_BAR.value = 0.5;
+AUDIO_PLAYER.volume = 0.5;
+
 // ************************************************* declaration des evenement *************************************************
 
 ALL_SONG_IN_PLAYLIST.forEach((element) => {
