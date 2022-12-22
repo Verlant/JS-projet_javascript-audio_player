@@ -127,7 +127,7 @@ let song_list_arr = [
 
 const CHOOSEN_PLAYLIST = document.querySelectorAll(".choosen_playlist");
 const PLAYLIST_TITLE = document.querySelector(".playlist_title");
-const ALL_SONG = document.querySelectorAll(".song");
+const ALL_SONG_IN_PLAYLIST = document.querySelectorAll(".song");
 const AUDIO_PLAYER = document.querySelector("#audio_player");
 const ALL_AUDIO = document.querySelectorAll("audio");
 const PLAY_BTN = document.querySelector(".play_btn");
@@ -182,7 +182,7 @@ function shuffle(items) {
 function place_song_in_playlist(song_array) {
   for (let index = 0; index < song_array.length; index++) {
     const element = song_array[index];
-    ALL_SONG[index].textContent =
+    ALL_SONG_IN_PLAYLIST[index].textContent =
       element.title + " | " + element.artist + " | " + element.album;
   }
 }
@@ -289,6 +289,7 @@ function set_current_song_CSS_in_playlist(playlist, media_element, song_array) {
   let url = get_relative_path_src_url(media_element);
   let this_song_title; //= playlist
   playlist.forEach((playlist_element) => {
+    playlist_element.removeAttribute("style");
     playlist_element.classList.remove("JS-current_song");
     this_song_title = playlist_element.textContent.split(" | ")[0];
     song_array.forEach((song_array_element) => {
@@ -361,19 +362,6 @@ function time_line() {
   }
 }
 
-// /**
-//  * Fonctione classe aléatoirement le tableau contenant les musique puis les place dans la playlsit
-//  * @param {array} song_array
-//  */
-// function random_playlist(song_array) {
-//   shuffle(song_array);
-//   place_song_in_playlist(song_array);
-//   PLAYLIST_TITLE.textContent = "Liste aléatoire";
-//   AUDIO_PLAYER.src = song_array[0].url;
-//   set_song_title(AUDIO_PLAYER, song_array);
-//   set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_array);
-// }
-
 /**
  * Fonctione qui crée la playlist
  * @param {array} song_array
@@ -386,25 +374,41 @@ function set_playlist(song_array, element) {
       sort_arr = song_array.sort((a, b) => a.title.localeCompare(b.title));
       place_song_in_playlist(sort_arr);
       PLAYLIST_TITLE.textContent = "Liste par chanson";
-      set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
+      set_current_song_CSS_in_playlist(
+        ALL_SONG_IN_PLAYLIST,
+        AUDIO_PLAYER,
+        song_list_arr
+      );
       break;
     case "Artiste":
       sort_arr = song_array.sort((a, b) => a.artist.localeCompare(b.artist));
       place_song_in_playlist(sort_arr);
       PLAYLIST_TITLE.textContent = "Liste par artiste";
-      set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, sort_arr);
+      set_current_song_CSS_in_playlist(
+        ALL_SONG_IN_PLAYLIST,
+        AUDIO_PLAYER,
+        sort_arr
+      );
       break;
     case "Album":
       sort_arr = song_array.sort((a, b) => a.album.localeCompare(b.album));
       place_song_in_playlist(sort_arr);
       PLAYLIST_TITLE.textContent = "Liste par album";
-      set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, sort_arr);
+      set_current_song_CSS_in_playlist(
+        ALL_SONG_IN_PLAYLIST,
+        AUDIO_PLAYER,
+        sort_arr
+      );
       break;
     case "Aléatoire":
       shuffle(song_array);
       place_song_in_playlist(song_array);
       PLAYLIST_TITLE.textContent = "Liste aléatoire";
-      set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_array);
+      set_current_song_CSS_in_playlist(
+        ALL_SONG_IN_PLAYLIST,
+        AUDIO_PLAYER,
+        song_array
+      );
       break;
     default:
       break;
@@ -488,7 +492,7 @@ TIME_LINE.value = 0;
 END_TIME.textContent = "00:00";
 // ************************************************* declaration des evenement *************************************************
 
-ALL_SONG.forEach((element) => {
+ALL_SONG_IN_PLAYLIST.forEach((element) => {
   element.addEventListener("click", (e) => {
     AUDIO_PLAYER.src = set_url(element, song_list_arr);
     AUDIO_PLAYER.play();
@@ -496,7 +500,11 @@ ALL_SONG.forEach((element) => {
     PAUSE_BTN.classList.remove("JS-display_none");
     STOP_BTN.classList.remove("JS-display_none");
     set_song_title(AUDIO_PLAYER, song_list_arr);
-    set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
+    set_current_song_CSS_in_playlist(
+      ALL_SONG_IN_PLAYLIST,
+      AUDIO_PLAYER,
+      song_list_arr
+    );
     clearInterval(equalizer_interval);
     addBarSpans();
     equalizer_interval = setInterval(() => {
@@ -511,7 +519,11 @@ PLAY_BTN.addEventListener("click", (e) => {
   if (AUDIO_PLAYER.src == document.location.href) {
     AUDIO_PLAYER.src = song_list_arr[0].url;
     set_song_title(AUDIO_PLAYER, song_list_arr);
-    set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
+    set_current_song_CSS_in_playlist(
+      ALL_SONG_IN_PLAYLIST,
+      AUDIO_PLAYER,
+      song_list_arr
+    );
   }
   AUDIO_PLAYER.play();
   PLAY_BTN.classList.add("JS-display_none");
@@ -553,7 +565,11 @@ NEXT_SONG_BTN.addEventListener("click", (e) => {
   AUDIO_PLAYER.src = next_song_url(url, song_list_arr);
   AUDIO_PLAYER.play();
   set_song_title(AUDIO_PLAYER, song_list_arr);
-  set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
+  set_current_song_CSS_in_playlist(
+    ALL_SONG_IN_PLAYLIST,
+    AUDIO_PLAYER,
+    song_list_arr
+  );
   clearInterval(equalizer_interval);
   addBarSpans();
   equalizer_interval = setInterval(() => {
@@ -566,7 +582,11 @@ PREVIOUS_SONG_BTN.addEventListener("click", (e) => {
   AUDIO_PLAYER.src = previous_song_url(url, song_list_arr);
   AUDIO_PLAYER.play();
   set_song_title(AUDIO_PLAYER, song_list_arr);
-  set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
+  set_current_song_CSS_in_playlist(
+    ALL_SONG_IN_PLAYLIST,
+    AUDIO_PLAYER,
+    song_list_arr
+  );
   clearInterval(equalizer_interval);
   addBarSpans();
   equalizer_interval = setInterval(() => {
@@ -579,7 +599,11 @@ AUDIO_PLAYER.addEventListener("ended", (e) => {
   AUDIO_PLAYER.src = next_song_url(url, song_list_arr);
   AUDIO_PLAYER.play();
   set_song_title(AUDIO_PLAYER, song_list_arr);
-  set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
+  set_current_song_CSS_in_playlist(
+    ALL_SONG_IN_PLAYLIST,
+    AUDIO_PLAYER,
+    song_list_arr
+  );
   clearInterval(equalizer_interval);
   addBarSpans();
   equalizer_interval = setInterval(() => {
