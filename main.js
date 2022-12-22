@@ -257,9 +257,9 @@ function previous_song_url(str_url, song_array) {
  */
 function get_relative_path_src_url(media_element) {
   let url =
-    media_element.src.split("JavaScript/")[
-      media_element.src.split("JavaScript/").length - 1
-    ];
+    media_element.src.split("/")[media_element.src.split("/").length - 2] +
+    "/" +
+    media_element.src.split("/")[media_element.src.split("/").length - 1];
   return url;
 }
 
@@ -411,17 +411,16 @@ function set_playlist(song_array, element) {
 const MAX_BAR_HEIGHT = 20;
 
 addBarSpans();
-
 let equalizer_interval;
 
 // Main programm (repeats)
-function setRandomBars() {
+function setRandomBars(max_bar_height) {
   const bars = document.getElementsByClassName("equalizer-bar");
 
   for (let i = 0; i < bars.length; i++) {
     let spans = bars[i].getElementsByTagName("span");
     let activeSpanCount = getActiveSpans(spans);
-    let newHeight = getRandomHeight(MAX_BAR_HEIGHT);
+    let newHeight = getRandomHeight(max_bar_height);
 
     for (let j = 0; j < spans.length; j++) {
       if (newHeight > activeSpanCount) {
@@ -431,8 +430,8 @@ function setRandomBars() {
       }
 
       // set little opacity
-      let upperSpan = MAX_BAR_HEIGHT - j;
-      if (newHeight > MAX_BAR_HEIGHT - 5 && upperSpan < 5) {
+      let upperSpan = max_bar_height - j;
+      if (newHeight > max_bar_height - 5 && upperSpan < 5) {
         spans[j].style.opacity = "0." + upperSpan;
       }
     }
@@ -450,7 +449,7 @@ function getActiveSpans(spans) {
   return counter;
 }
 
-// Returns a random number between 1 and 20
+// Returns a random number between 1 and maxBarHeight
 function getRandomHeight(maxBarHeight) {
   return Math.round(Math.random() * (maxBarHeight - 1)) + 1;
 }
@@ -474,15 +473,11 @@ STOP_BTN.classList.add("JS-display_none");
 SOUND_BAR.classList.add("JS-display_none");
 SOUND_MUTED_ICON.classList.add("JS-display_none");
 
-//initialise une liste de lecture aléatoire lors de l'ouverture ou du rafraichissement de la page
-// random_playlist(song_list_arr);
-
+//Place la playslit dans l'ordre du tableau de musique de base au chargement de la page
 place_song_in_playlist(song_list_arr);
 
 //rafaichi la barre de lecture de la musique actuelle
 setInterval(time_line, 100);
-
-console.log(get_relative_path_src_url(AUDIO_PLAYER));
 
 // ************************************************* declaration des evenement *************************************************
 
@@ -496,14 +491,19 @@ ALL_SONG.forEach((element) => {
     set_song_title(AUDIO_PLAYER, song_list_arr);
     set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
     clearInterval(equalizer_interval);
+    addBarSpans();
     equalizer_interval = setInterval(() => {
-      setRandomBars();
+      setRandomBars(MAX_BAR_HEIGHT);
     }, 200);
   });
 });
 
 PLAY_BTN.addEventListener("click", (e) => {
-  if (get_relative_path_src_url(AUDIO_PLAYER) == "index.html") {
+  if (
+    get_relative_path_src_url(AUDIO_PLAYER).split("/")[
+      get_relative_path_src_url(AUDIO_PLAYER).split("/").length - 1
+    ] == "index.html"
+  ) {
     AUDIO_PLAYER.src = song_list_arr[0].url;
     set_song_title(AUDIO_PLAYER, song_list_arr);
     set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
@@ -513,8 +513,9 @@ PLAY_BTN.addEventListener("click", (e) => {
   PAUSE_BTN.classList.remove("JS-display_none");
   STOP_BTN.classList.remove("JS-display_none");
   clearInterval(equalizer_interval);
+  addBarSpans();
   equalizer_interval = setInterval(() => {
-    setRandomBars();
+    setRandomBars(MAX_BAR_HEIGHT);
   }, 200);
 });
 
@@ -523,6 +524,7 @@ PAUSE_BTN.addEventListener("click", (e) => {
   PAUSE_BTN.classList.add("JS-display_none");
   PLAY_BTN.classList.remove("JS-display_none");
   clearInterval(equalizer_interval);
+  addBarSpans();
 });
 
 STOP_BTN.addEventListener("click", (e) => {
@@ -532,6 +534,7 @@ STOP_BTN.addEventListener("click", (e) => {
   STOP_BTN.classList.add("JS-display_none");
   PLAY_BTN.classList.remove("JS-display_none");
   clearInterval(equalizer_interval);
+  addBarSpans();
 });
 
 NEXT_SONG_BTN.addEventListener("click", (e) => {
@@ -541,8 +544,9 @@ NEXT_SONG_BTN.addEventListener("click", (e) => {
   set_song_title(AUDIO_PLAYER, song_list_arr);
   set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
   clearInterval(equalizer_interval);
+  addBarSpans();
   equalizer_interval = setInterval(() => {
-    setRandomBars();
+    setRandomBars(MAX_BAR_HEIGHT);
   }, 200);
 });
 
@@ -553,8 +557,9 @@ PREVIOUS_SONG_BTN.addEventListener("click", (e) => {
   set_song_title(AUDIO_PLAYER, song_list_arr);
   set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
   clearInterval(equalizer_interval);
+  addBarSpans();
   equalizer_interval = setInterval(() => {
-    setRandomBars();
+    setRandomBars(MAX_BAR_HEIGHT);
   }, 200);
 });
 
@@ -565,8 +570,9 @@ AUDIO_PLAYER.addEventListener("ended", (e) => {
   set_song_title(AUDIO_PLAYER, song_list_arr);
   set_current_song_CSS_in_playlist(ALL_SONG, AUDIO_PLAYER, song_list_arr);
   clearInterval(equalizer_interval);
+  addBarSpans();
   equalizer_interval = setInterval(() => {
-    setRandomBars();
+    setRandomBars(MAX_BAR_HEIGHT);
   }, 200);
 });
 
@@ -600,82 +606,5 @@ CHOOSEN_PLAYLIST.forEach((element) => {
     });
     element.classList.add("JS-current_playlsit");
     set_playlist(song_list_arr, element);
-    // AUDIO_PLAYER.pause();
-    // AUDIO_PLAYER.currentTime = 0;
-    // PAUSE_BTN.classList.add("JS-display_none");
-    // STOP_BTN.classList.add("JS-display_none");
-    // PLAY_BTN.classList.remove("JS-display_none");
-    clearInterval(equalizer_interval);
   });
 });
-
-//******************************************************* TEST ********************************************************/
-
-// let canvas,
-//   ctx,
-//   source,
-//   context,
-//   analyser,
-//   fbc_array,
-//   bar_count,
-//   bar_pos,
-//   bar_width,
-//   bar_height;
-
-// let audio = new Audio();
-
-// audio.id = "audio_player";
-// audio.src = song_list_arr[0];
-// audio.controls = true;
-// audio.loop = false;
-// audio.autoplay = false;
-
-// window.addEventListener(
-//   "load",
-//   function () {
-//     document.getElementById("equaliser").appendChild(audio);
-
-//     AUDIO_PLAYER.onplay = function () {
-//       if (typeof context === "undefined") {
-//         context = new AudioContext();
-//         analyser = context.createAnalyser();
-//         canvas = document.getElementById("canvas");
-//         ctx = canvas.getContext("2d");
-//         source = context.createMediaElementSource(AUDIO_PLAYER);
-
-//         canvas.width = window.innerWidth * 0.8;
-//         canvas.height = window.innerHeight * 0.6;
-
-//         source.connect(analyser);
-//         analyser.connect(context.destination);
-//       }
-
-//       FrameLooper();
-//     };
-//   },
-//   false
-// );
-
-// function FrameLooper() {
-//   window.RequestAnimationFrame =
-//     window.requestAnimationFrame(FrameLooper) ||
-//     window.msRequestAnimationFrame(FrameLooper) ||
-//     window.mozRequestAnimationFrame(FrameLooper) ||
-//     window.webkitRequestAnimationFrame(FrameLooper);
-
-//   fbc_array = new Uint8Array(analyser.frequencyBinCount);
-//   bar_count = window.innerWidth / 2;
-
-//   analyser.getByteFrequencyData(fbc_array);
-
-//   ctx.clearRect(0, 0, canvas.width, canvas.height);
-//   ctx.fillStyle = "#ffffff";
-
-//   for (let i = 0; i < bar_count; i++) {
-//     bar_pos = i * 4;
-//     bar_width = 2;
-//     bar_height = -(fbc_array[i] / 2);
-
-//     ctx.fillRect(bar_pos, canvas.height, bar_width, bar_height);
-//   }
-// }

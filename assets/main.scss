@@ -128,9 +128,9 @@ aside {
 }
 .equalizer {
   @include mixin.figure(70%, 50%, var.$black-color);
-  @include mixin.flex(row, start, end, 0);
+  @include mixin.flex(row, center, end, 0);
   border-radius: 25px;
-  padding: 25px;
+  padding: 20px;
   .equalizer-bar {
     width: 1.8rem;
     margin: 0 3px;
