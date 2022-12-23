@@ -529,8 +529,8 @@ PLAY_BTN.addEventListener("click", (e) => {
     );
   }
   AUDIO_PLAYER.play();
-  PLAY_BTN.classList.add("JS-display_none");
-  PAUSE_BTN.classList.remove("JS-display_none");
+  PLAY_BTN.classList.toggle("JS-display_none");
+  PAUSE_BTN.classList.toggle("JS-display_none");
   STOP_BTN.classList.remove("JS-display_none");
   clearInterval(equalizer_interval);
   addBarSpans();
@@ -564,6 +564,13 @@ STOP_BTN.addEventListener("click", (e) => {
 });
 
 NEXT_SONG_BTN.addEventListener("click", (e) => {
+  if (PAUSE_BTN.classList.contains("JS-display_none")) {
+    PLAY_BTN.classList.toggle("JS-display_none");
+    PAUSE_BTN.classList.toggle("JS-display_none");
+  }
+  if (STOP_BTN.classList.contains("JS-display_none")) {
+    STOP_BTN.classList.toggle("JS-display_none");
+  }
   let url = get_relative_path_src_url(AUDIO_PLAYER);
   AUDIO_PLAYER.src = next_song_url(url, song_list_arr);
   AUDIO_PLAYER.play();
@@ -581,6 +588,13 @@ NEXT_SONG_BTN.addEventListener("click", (e) => {
 });
 
 PREVIOUS_SONG_BTN.addEventListener("click", (e) => {
+  if (PAUSE_BTN.classList.contains("JS-display_none")) {
+    PLAY_BTN.classList.toggle("JS-display_none");
+    PAUSE_BTN.classList.toggle("JS-display_none");
+  }
+  if (STOP_BTN.classList.contains("JS-display_none")) {
+    STOP_BTN.classList.toggle("JS-display_none");
+  }
   let url = get_relative_path_src_url(AUDIO_PLAYER);
   AUDIO_PLAYER.src = previous_song_url(url, song_list_arr);
   AUDIO_PLAYER.play();
@@ -620,11 +634,20 @@ TIME_LINE.addEventListener("change", (e) => {
 
 SOUND_BTN.addEventListener("mouseover", (e) => {
   SOUND_BAR.classList.toggle("JS-display_none");
+  SOUND_ICON.style.opacity = 1;
+  SOUND_MUTED_ICON.style.opacity = 1;
 });
 
 SOUND_BTN.addEventListener("mouseout", (e) => {
   SOUND_BAR.classList.toggle("JS-display_none");
+  SOUND_ICON.removeAttribute("style");
+  SOUND_MUTED_ICON.removeAttribute("style");
 });
+
+// SOUND_BTN.addEventListener("click", (e) => {
+//   AUDIO_PLAYER.volume = 0;
+//   SOUND_BAR.value = 0;
+// });
 
 SOUND_BAR.addEventListener("input", (e) => {
   AUDIO_PLAYER.volume = SOUND_BAR.value;

@@ -8,6 +8,7 @@
 
 %size-header-footer {
   height: 150px;
+  max-height: 150px;
   background-color: var.$black-color;
 }
 
@@ -49,9 +50,13 @@ nav {
     30px
   );
   margin-right: 10%;
+  
   span {
     @include mixin.figure(2px, 30px, transparent);
     @include mixin.border(1px, solid, var.$third-light-color, 0, 0, 0, 0);
+  }
+  li {
+    font-size: 2vw;
   }
   li:hover {
     cursor: pointer;
@@ -127,19 +132,21 @@ aside {
   }
 }
 .equalizer {
-  @include mixin.figure(70%, 50%, var.$black-color);
+  @include mixin.figure(70%, 60%, var.$black-color);
   @include mixin.flex(row, center, end, 0);
   border-radius: 25px;
   padding: 20px;
   .equalizer-bar {
-    width: 1.8rem;
+    width: 6.66%;
+    height: 90%;
     margin: 0 3px;
     display: flex;
     flex-direction: column-reverse;
     
     span {
       display: block;
-      height: 4px;
+      height: 5%;
+      min-height: 1px;
       border-radius: 2px;
       width: 100%;
       margin: 2px 0;
@@ -225,6 +232,7 @@ button {
   @include mixin.border(0px, solid, transparent, 50px, 50px, 100px, 100px);
   @include mixin.flex(column, space-evenly, center, 0);
   margin-left: 30%;
+  max-width: 400px;
 }
 .time-line {
   @include mixin.figure(90%, auto, transparent);
@@ -234,7 +242,11 @@ button {
     @include mixin.figure(80%, 5px, transparent);
     border-radius: 20px;
     background: var.$black-color;
+    opacity: 0.9;
     cursor: pointer;
+  }
+  .timeline_input_range:hover{
+    opacity: 1;
   }
   .timeline_input_range::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -253,7 +265,7 @@ button {
     cursor: pointer;
   }
   span {
-    @include mixin.figure(35px, auto, transparent);
+    @include mixin.figure(auto, auto, transparent);
     border: none;
     @include mixin.font(
       0.5rem,
@@ -264,10 +276,17 @@ button {
   }
 }
 .player-button {
-  @include mixin.figure(90%, 70%, transparent);
-  @include mixin.flex(row, center, center, 20px);
+  @include mixin.figure(80%, 70%, transparent);
+  @include mixin.flex(row, center, center, 0);
   div {
-    @include mixin.flex(row, space-evenly, center, 0);
+    @include mixin.flex(row, center, center, 0);
+  }
+  .btn_img {
+    @include mixin.figure(100%, 100%, transparent);
+    opacity: 0.9;
+  }
+  .btn_img:hover {
+    opacity: 1;
   }
 }
 .sound_btn {
