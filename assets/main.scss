@@ -50,7 +50,7 @@ nav {
     30px
   );
   margin-right: 10%;
-  
+
   span {
     @include mixin.figure(2px, 30px, transparent);
     @include mixin.border(1px, solid, var.$third-light-color, 0, 0, 0, 0);
@@ -127,8 +127,12 @@ aside {
     animation: Scroll 10s linear infinite;
   }
   @keyframes Scroll {
-    0% { margin-left: 200%; }
-    100% { margin-right: 200%; }
+    0% {
+      margin-left: 200%;
+    }
+    100% {
+      margin-right: 200%;
+    }
   }
 }
 .equalizer {
@@ -142,7 +146,7 @@ aside {
     margin: 0 3px;
     display: flex;
     flex-direction: column-reverse;
-    
+
     span {
       display: block;
       height: 5%;
@@ -150,71 +154,70 @@ aside {
       border-radius: 2px;
       width: 100%;
       margin: 2px 0;
-      background-color: #FFF;
-      transition: .2s ease all;
+      background-color: #fff;
+      transition: 0.2s ease all;
       opacity: 1;
     }
-    
+
     &:nth-child(1) span {
       background: #fc0127;
     }
-    
+
     &:nth-child(2) span {
       background: #fb0275;
     }
-    
+
     &:nth-child(3) span {
       background: #b50cd3;
     }
-    
+
     &:nth-child(4) span {
       background: #6407e9;
     }
-    
+
     &:nth-child(5) span {
       background: #2a06a9;
     }
-    
+
     &:nth-child(6) span {
       background: #080ad7;
     }
-    
+
     &:nth-child(7) span {
       background: #0265e2;
     }
-    
+
     &:nth-child(8) span {
       background: #03fcfc;
     }
-    
+
     &:nth-child(9) span {
       background: #02fe46;
     }
-    
+
     &:nth-child(10) span {
       background: #05fb0f;
     }
-    
+
     &:nth-child(11) span {
       background: #97f611;
     }
-    
+
     &:nth-child(12) span {
       background: #f5e506;
     }
-    
+
     &:nth-child(13) span {
       background: #d7a414;
     }
-    
+
     &:nth-child(14) span {
       background: #fc6b02;
     }
-    
+
     &:nth-child(15) span {
       background: #df1506;
     }
-    
   }
 }
 footer {
@@ -245,17 +248,17 @@ button {
     opacity: 0.9;
     cursor: pointer;
   }
-  .timeline_input_range:hover{
+  .timeline_input_range:hover {
     opacity: 1;
   }
-  .timeline_input_range::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    @include mixin.figure(15px, 15px, transparent);
-    background: var.$black-color;
-    border: 2px solid var.$white-color;
-    cursor: pointer;
-  }
+  // .timeline_input_range::-webkit-slider-thumb {
+  //   -webkit-appearance: none;
+  //   appearance: none;
+  //   @include mixin.figure(15px, 15px, transparent);
+  //   background: var.$black-color;
+  //   border: 2px solid var.$white-color;
+  //   cursor: pointer;
+  // }
   .timeline_input_range::-moz-range-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -302,11 +305,12 @@ button {
   border-radius: 20px;
   background: var.$black-color;
   cursor: pointer;
+  writing-mode: vertical-rl;
 }
 .sound_input_range::-webkit-slider-thumb {
-  -webkit-appearance: none;
   @include mixin.figure(15px, 15px, transparent);
   background: var.$black-color;
+  border: 2px solid var.$white-color;
   cursor: pointer;
 }
 .sound_input_range::-moz-range-thumb {
@@ -323,6 +327,6 @@ button {
 .JS-current_song {
   color: var.$primary-light-color;
 }
-.JS-current_playlsit{
+.JS-current_playlsit {
   color: var.$third-color;
 }

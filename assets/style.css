@@ -225,7 +225,7 @@ aside .container_list-song .list-song .song:hover {
   border-radius: 2px;
   width: 100%;
   margin: 2px 0;
-  background-color: #FFF;
+  background-color: #fff;
   transition: 0.2s ease all;
   opacity: 1;
 }
@@ -340,16 +340,6 @@ button {
 .time-line .timeline_input_range:hover {
   opacity: 1;
 }
-.time-line .timeline_input_range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 15px;
-  height: 15px;
-  background-color: transparent;
-  background: #222222;
-  border: 2px solid #fbf5f3;
-  cursor: pointer;
-}
 .time-line .timeline_input_range::-moz-range-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -431,14 +421,15 @@ button {
   border-radius: 20px;
   background: #222222;
   cursor: pointer;
+  writing-mode: vertical-rl;
 }
 
 .sound_input_range::-webkit-slider-thumb {
-  -webkit-appearance: none;
   width: 15px;
   height: 15px;
   background-color: transparent;
   background: #222222;
+  border: 2px solid #fbf5f3;
   cursor: pointer;
 }
 
