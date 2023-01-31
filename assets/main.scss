@@ -242,6 +242,8 @@ button {
   @include mixin.position(relative, auto, auto, auto, auto, 0);
   @include mixin.flex(row, space-between, center, 0);
   .timeline_input_range {
+    -webkit-appearance: none;
+    appearance: none;
     @include mixin.figure(80%, 5px, transparent);
     border-radius: 20px;
     background: var.$black-color;
@@ -265,6 +267,15 @@ button {
     @include mixin.figure(15px, 15px, transparent);
     background: var.$black-color;
     border: 2px solid var.$white-color;
+    cursor: pointer;
+  }
+  .timeline_input_range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    @include mixin.figure(20px, 20px, transparent);
+    background: var.$black-color;
+    border: 2px solid var.$white-color;
+    border-radius: 50%;
     cursor: pointer;
   }
   span {
@@ -300,19 +311,30 @@ button {
   }
 }
 .sound_input_range {
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 0;
   @include mixin.figure(5px, 65px, transparent);
   @include mixin.position(absolute, auto, 10px, 0px, auto, 0);
   border-radius: 20px;
   background: var.$black-color;
+  opacity: 0.9;
   cursor: pointer;
-  writing-mode: vertical-rl;
+  writing-mode: bt-lr; /* IE */
+  -webkit-appearance: slider-vertical; /* Chromium */
 }
-.sound_input_range::-webkit-slider-thumb {
-  @include mixin.figure(15px, 15px, transparent);
-  background: var.$black-color;
-  border: 2px solid var.$white-color;
-  cursor: pointer;
+.sound_input_range:hover {
+  opacity: 1;
 }
+// .sound_input_range::-webkit-slider-thumb {
+//   -webkit-appearance: none;
+//   appearance: none;
+//   @include mixin.figure(20px, 20px, transparent);
+//   background: var.$black-color;
+//   border: 2px solid var.$white-color;
+//   border-radius: 50%;
+//   cursor: pointer;
+// }
 .sound_input_range::-moz-range-thumb {
   @include mixin.figure(15px, 15px, transparent);
   background: var.$black-color;

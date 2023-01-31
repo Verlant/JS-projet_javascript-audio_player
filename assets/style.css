@@ -329,6 +329,8 @@ button {
   gap: 0;
 }
 .time-line .timeline_input_range {
+  -webkit-appearance: none;
+  appearance: none;
   width: 80%;
   height: 5px;
   background-color: transparent;
@@ -348,6 +350,17 @@ button {
   background-color: transparent;
   background: #222222;
   border: 2px solid #fbf5f3;
+  cursor: pointer;
+}
+.time-line .timeline_input_range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  background: #222222;
+  border: 2px solid #fbf5f3;
+  border-radius: 50%;
   cursor: pointer;
 }
 .time-line span {
@@ -409,6 +422,9 @@ button {
 }
 
 .sound_input_range {
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 0;
   width: 5px;
   height: 65px;
   background-color: transparent;
@@ -420,17 +436,14 @@ button {
   z-index: 0;
   border-radius: 20px;
   background: #222222;
+  opacity: 0.9;
   cursor: pointer;
-  writing-mode: vertical-rl;
+  writing-mode: bt-lr; /* IE */
+  -webkit-appearance: slider-vertical; /* Chromium */
 }
 
-.sound_input_range::-webkit-slider-thumb {
-  width: 15px;
-  height: 15px;
-  background-color: transparent;
-  background: #222222;
-  border: 2px solid #fbf5f3;
-  cursor: pointer;
+.sound_input_range:hover {
+  opacity: 1;
 }
 
 .sound_input_range::-moz-range-thumb {
